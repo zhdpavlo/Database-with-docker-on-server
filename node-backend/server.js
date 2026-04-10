@@ -3,7 +3,7 @@ const cors = require('cors');
 const { Client } = require('pg');
 
 const app = express();
-app.use(cors()); // разрешаем CORS
+app.use(cors()); //enable CORS for all routes
 
 const client = new Client({
   host: process.env.DB_HOST || 'db',
