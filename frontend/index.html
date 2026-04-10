@@ -15,19 +15,20 @@
   
   <table id="table"></table>
   <script>
+    // Initial load of data
       fetch('http://localhost:3000/data')
       .then(res => res.json())
       .then(data => {
         const table = document.getElementById('table');
         if (!data.length) return;
-
+        // Create table header
         const header = table.insertRow();
         Object.keys(data[0]).forEach(k => {
           const th = document.createElement('th');
           th.innerText = k;
           header.appendChild(th);
         });
-
+        // Add rows(from database) to the table
         data.forEach(row => {
           const tr = table.insertRow();
           Object.values(row).forEach(v => {
@@ -36,10 +37,10 @@
           });
         });
       });
-
+// Function to render table with new data
 function renderTable(data) {
   const table = document.getElementById('table');
-  table.innerHTML = ''; // очистить таблицу
+  table.innerHTML = ''; // Clear existing table
 
   if (!data.length) {
     table.innerHTML = '<tr><td>Keine Ergebnisse</td></tr>';
@@ -52,7 +53,7 @@ function renderTable(data) {
     th.innerText = k;
     header.appendChild(th);
   });
-
+// Add rows(from database) to the table
   data.forEach(row => {
     const tr = table.insertRow();
     Object.values(row).forEach(v => {
@@ -62,12 +63,12 @@ function renderTable(data) {
   });
 }
 
-// начальная загрузка
+// Initial load
 fetch('http://localhost:3000/data')
   .then(res => res.json())
   .then(data => renderTable(data));
 
-// 🔍 ПОИСК
+// Search function
 function search() {
   const value = document.getElementById('searchInput').value;
 

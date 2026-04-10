@@ -15,20 +15,20 @@ const client = new Client({
 
 const startServer = async () => {
   try {
-    await client.connect(); // подключаемся к базе
+    await client.connect(); // connect to the database
     console.log('✅ Connected to DB');
 
-    app.get('/data', async (req, res) => {
+    app.get('/data', async (req, res) => {// define the /data endpoint
       try {
         const result = await client.query('SELECT * FROM public.gemeinde');
-        res.json(result.rows);
+        res.json(result.rows);// send the data as JSON
       } catch (err) {
         res.status(500).send(err.message);
       }
 
       app.get('/search', async (req, res) => {
   try {
-    const name = req.query.name;
+    const name = req.query.name;// get the name query parameter
 
     const result = await client.query(
       'SELECT * FROM public.gemeinde WHERE name ILIKE $1',
@@ -42,7 +42,7 @@ const startServer = async () => {
 });
     });
 
-    app.listen(3000, () => {
+    app.listen(3000, () => {// start the server
       console.log('🚀 Server started on port 3000');
     });
   } catch (err) {
