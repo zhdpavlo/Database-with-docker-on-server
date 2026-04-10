@@ -9,6 +9,10 @@
 </head>
 <body>
   <h1>Tabelle</h1>
+  
+  <input type="text" id="searchInput" placeholder="Name eingeben...">
+  <button onclick="search()">SUCHE</button>
+  
   <table id="table"></table>
   <script>
       fetch('http://localhost:3000/data')
@@ -32,6 +36,46 @@
           });
         });
       });
+
+function renderTable(data) {
+  const table = document.getElementById('table');
+  table.innerHTML = ''; // очистить таблицу
+
+  if (!data.length) {
+    table.innerHTML = '<tr><td>Keine Ergebnisse</td></tr>';
+    return;
+  }
+
+  const header = table.insertRow();
+  Object.keys(data[0]).forEach(k => {
+    const th = document.createElement('th');
+    th.innerText = k;
+    header.appendChild(th);
+  });
+
+  data.forEach(row => {
+    const tr = table.insertRow();
+    Object.values(row).forEach(v => {
+      const td = tr.insertCell();
+      td.innerText = v;
+    });
+  });
+}
+
+// начальная загрузка
+fetch('http://localhost:3000/data')
+  .then(res => res.json())
+  .then(data => renderTable(data));
+
+// 🔍 ПОИСК
+function search() {
+  const value = document.getElementById('searchInput').value;
+
+  fetch(`http://localhost:3000/search?name=${value}`)
+    .then(res => res.json())
+    .then(data => renderTable(data));
+}
+
   </script>
 </body>
 </html>

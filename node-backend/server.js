@@ -25,6 +25,21 @@ const startServer = async () => {
       } catch (err) {
         res.status(500).send(err.message);
       }
+
+      app.get('/search', async (req, res) => {
+  try {
+    const name = req.query.name;
+
+    const result = await client.query(
+      'SELECT * FROM public.gemeinde WHERE name ILIKE $1',
+      [`%${name}%`]
+    );
+
+    res.json(result.rows);
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
+});
     });
 
     app.listen(3000, () => {
