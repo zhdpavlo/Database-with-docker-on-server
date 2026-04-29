@@ -16,7 +16,7 @@ const client = new Client({
 const startServer = async () => {
   try {
     await client.connect(); // connect to the database
-    console.log('✅ Connected to DB');
+    console.log('Connected to DB');
 
     app.get('/data', async (req, res) => {// define the /data endpoint
       try {
